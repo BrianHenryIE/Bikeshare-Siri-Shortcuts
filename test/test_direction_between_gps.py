@@ -6,19 +6,19 @@ class DirectionBetweenGpsTests(unittest.TestCase):
 
     def test_citypark_to_nearest(self):
 
-        from_gps = {
-            "longitude": -121.4920789003372,
-            "latitude": 38.586078791838744
+        city_park_gps = {
+            "longitude": -121.49305556,
+            "latitude": 38.58638889
         }
 
-        to_gps = {
+        e_and_ninth_gps = {
             "longitude": -121.4920789003372,
             "latitude": 38.586078791838744
         }
 
         expected = "east"
 
-        actual = direction_between_gps(from_gps, to_gps)
+        actual = direction_between_gps(city_park_gps, e_and_ninth_gps)
 
         self.assertEqual(expected, actual)
 
