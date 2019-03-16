@@ -56,7 +56,8 @@ def where_is_the_nearest_bikeshare_bike(free_bike_status, station_status, statio
             single_station_status = station_status_dictionary[station['station_id']]
             if single_station_status['num_bikes_available'] > 0:
                 nearest_bike['distance'] = station_distance
-                nearest_bike['station'] = station
+                nearest_bike['station_information'] = station
+                nearest_bike['station_status'] = single_station_status
                 nearest_bike['gps'] = {'longitude': station['lon'], 'latitude': station['lat']}
                 if 'bike' in nearest_bike.keys():
                     del nearest_bike['bike']
@@ -64,8 +65,8 @@ def where_is_the_nearest_bikeshare_bike(free_bike_status, station_status, statio
     nearest_bike['angle'] = angle_between_gps(gps, nearest_bike['gps'])
     nearest_bike['direction'] = angle_to_direction(nearest_bike['angle'])
 
-    if 'station' in nearest_bike.keys():
-        nearest_bike['message'] = "The nearest bike is docked at " + nearest_bike['station']['name'] + ", " + str(nearest_bike['distance']) + " m " + nearest_bike['direction'] + "."
+    if 'station_information' in nearest_bike.keys():
+        nearest_bike['message'] = "The nearest bike is docked at " + nearest_bike['station_information']['name'] + ", " + str(nearest_bike['distance']) + " m " + nearest_bike['direction'] + "."
     else:
         nearest_bike['message'] = "The nearest bike is undocked, " + str(nearest_bike['distance']) + " m " + nearest_bike['direction'] + "."
 
