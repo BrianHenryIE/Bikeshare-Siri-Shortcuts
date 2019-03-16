@@ -1,10 +1,10 @@
 import unittest
-from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import *
+from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import nearest_station_to_gps
 
 
-class NearestHubToGpsTests(unittest.TestCase):
+class NearestStationToGpsTests(unittest.TestCase):
 
-    def test_nearest_hub(self):
+    def test_nearest_station(self):
 
         gps = {
             "longitude": -121.4920789003372,
