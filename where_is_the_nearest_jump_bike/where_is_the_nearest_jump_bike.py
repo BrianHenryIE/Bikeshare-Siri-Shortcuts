@@ -96,10 +96,18 @@ def angle_between_gps(from_gps, to_gps):
 def angle_to_direction(angle):
     """
     :param angle: Integer angle using north as 0º
-    :return: String direction, e.g. "north east"
+    :return: String direction, e.g. "north-east"
     """
 
-    # Use switch (assuming Python can use ranges in switches)
+    if 0 <= angle < 23: return 'north'
+    if 23 <= angle < 68: return 'north-east'
+    if 68 <= angle < 113: return 'east'
+    if 113 <= angle < 158: return 'south-east'
+    if 158 <= angle < 203: return 'south'
+    if 203 <= angle < 248: return 'south-west'
+    if 248 <= angle < 293: return 'west'
+    if 293 <= angle < 337: return 'north-west'
+    if 337 <= angle < 360: return 'north'
 
-    return "unimplemented"
+    return None
 
