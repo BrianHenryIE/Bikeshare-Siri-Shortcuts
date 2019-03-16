@@ -49,15 +49,46 @@ def where_is_the_nearest_hub_with_enough_bikes(station_status, station_informati
     :param station_information: Array of station_information
     :param gps: Dictionary containing "longitude" and "latitude"
     :param number_of_bikes: required number of Jump bikes
-    :return: English sentence directing user to the nearest station with adequate bikes
+    :return: Dictionary containing:
+            message: English sentence directing user to the nearest station with adequate bikes
+            information: station_information
+            status: station_status
+            distance: distance in metres
+            direction: compass direction in english
+            degrees: compass direction in degrees
     """
 
+    nearest_station = {'distance': 999999}
+
+    nearest_station['information'] = station_information[0]
+    nearest_station['status'] = station_status[0]
+
     # Create lookup dictionary of {station_id: station_information}
+    station_information_dictionary = {station['station_id']: station for station in station_information}
 
     # Iterate through stations status array, if it has >= number_of_bikes, check in station_information is it
     # closer than any recorded previously
+    for one_station_status in station_status:
+        if one_station_status ['num_bikes_available'] >= number_of_bikes:
+            station_id = one_station_status['station_id']
+            one_station_information = station_information_dictionary[station_id]
+            station_gps = {'longitude': one_station_information['lon'], 'latitude': one_station_information['lat']}
+            station_distance = metres_between_gps(gps, station_gps)
+            if station_distance < nearest_station['distance']:
+                nearest_station['information'] = one_station_information
+                nearest_station['status'] = one_station_status
+                nearest_station['distance'] = station_distance
 
-    return "unimplemented"
+    station_gps = {'longitude': nearest_station['information']['lon'], 'latitude': nearest_station['information']['lat']}
+
+    nearest_station['angle'] = angle_between_gps(gps, station_gps)
+    nearest_station['direction'] = angle_to_direction(nearest_station['angle'])
+
+    nearest_station['message'] = "The nearest dock with " + str(number_of_bikes) + " bikes is " + \
+                                 nearest_station['information']['name'] + ", " + \
+                                 str(nearest_station['distance']) + " m " + nearest_station['direction'] + "."
+
+    return nearest_station
 
 
 def is_gps_location_a_station(station_information, gps, metres=15):
