@@ -1,5 +1,6 @@
 import math
 
+
 def where_is_the_nearest_jump_bike(free_bike_status, station_information, gps):
     """
     :param free_bike_status: Array of bike
@@ -65,9 +66,24 @@ def metres_between_gps(from_gps, to_gps):
     :return: Integer distance in metres
     """
 
-    # Copy and paste formula from Stack Overflow:  (a function of latitude)
+    # https://stackoverflow.com/a/19412565/336146
 
-    return "unimplemented"
+    R = 6373.0
+
+    lat1 = math.radians(from_gps['latitude'])
+    lon1 = math.radians(from_gps['longitude'])
+    lat2 = math.radians(to_gps['latitude'])
+    lon2 = math.radians(to_gps['longitude'])
+
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+
+    a = math.sin(dlat / 2) ** 2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+    distance = R * c * 1000
+
+    return round(distance)
 
 
 def direction_between_gps(from_gps, to_gps):
@@ -78,8 +94,6 @@ def direction_between_gps(from_gps, to_gps):
     """
 
     angle = angle_between_gps(from_gps, to_gps)
-
-    print(angle)
 
     direction = angle_to_direction(angle)
 
