@@ -1,7 +1,7 @@
 import math
 
 
-def where_is_the_nearest_jump_bike(free_bike_status, station_status, station_information, gps):
+def where_is_the_nearest_bikeshare_bike(free_bike_status, station_status, station_information, gps):
     """
     :param free_bike_status: Array of bike
     :param station_status: Array of station_status
@@ -54,7 +54,7 @@ def where_is_the_nearest_hub_with_enough_bikes(station_status, station_informati
     :param station_status: Array of station_status
     :param station_information: Array of station_information
     :param gps: Dictionary containing "longitude" and "latitude"
-    :param number_of_bikes: required number of Jump bikes
+    :param number_of_bikes: required number of bikes
     :return: Dictionary containing:
             message: English sentence directing user to the nearest station with adequate bikes
             information: station_information

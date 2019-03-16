@@ -1,5 +1,5 @@
 import unittest
-from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import *
+from where_is_the_nearest_bikeshare_bike.where_is_the_nearest_bikeshare_bike import *
 
 
 class IsGpsLocationAHubTests(unittest.TestCase):

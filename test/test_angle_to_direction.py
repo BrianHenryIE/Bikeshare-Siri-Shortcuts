@@ -1,5 +1,5 @@
 import unittest
-from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import angle_to_direction
+from where_is_the_nearest_bikeshare_bike.where_is_the_nearest_bikeshare_bike import angle_to_direction
 
 
 class AngleToDirectionTests(unittest.TestCase):

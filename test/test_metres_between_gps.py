@@ -1,5 +1,5 @@
 import unittest
-from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import metres_between_gps
+from where_is_the_nearest_bikeshare_bike.where_is_the_nearest_bikeshare_bike import metres_between_gps
 
 
 class MetresBetweenGpsTests(unittest.TestCase):

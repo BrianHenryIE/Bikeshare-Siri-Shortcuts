@@ -1,6 +1,6 @@
 import unittest
 import json
-from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import where_is_the_nearest_hub_with_enough_bikes
+from where_is_the_nearest_bikeshare_bike.where_is_the_nearest_bikeshare_bike import where_is_the_nearest_hub_with_enough_bikes
 
 
 class NearestHubTests(unittest.TestCase):
