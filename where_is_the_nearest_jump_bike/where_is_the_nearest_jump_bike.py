@@ -42,9 +42,16 @@ def is_gps_location_a_station(station_information, gps, metres=10):
     # Bikes in free_bike_status.json do not have a property indicating if they are at a hub or not. Let's assume
     # if it's within 10m of a hub, it's at a hub.
 
-    # Use nearest_hub_to_gps then calculate the distance and compare with metres
+    # Rough approximation of metres to GPS units
+    distance = metres / 10 * 0.000111
 
-    return "unimplemented"
+    # Iterate through stations, use Pythagoras to note closest station.
+    for station in station_information:
+        station_distance = math.hypot(station['lon'] - gps['longitude'], station['lat'] - gps['latitude'])
+        if station_distance < distance:
+            return station
+
+    return False
 
 
 def nearest_station_to_gps(station_information, gps):
