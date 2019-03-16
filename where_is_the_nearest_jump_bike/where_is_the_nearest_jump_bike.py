@@ -1,5 +1,5 @@
 import math
-
+from functools import reduce
 
 def where_is_the_nearest_jump_bike(free_bike_status, station_information, gps):
     """
@@ -54,9 +54,17 @@ def nearest_station_to_gps(station_information, gps):
     :return: station_information object
     """
 
-    # Iterate through stations, use Pythagoras to note closest station.
+    nearest_station = station_information[0]
+    nearest_distance = 9999999
 
-    return "unimplemented"
+    # Iterate through stations, use Pythagoras to note closest station.
+    for station in station_information:
+        station_distance = math.hypot(station['lon'] - gps['longitude'], station['lat'] - gps['latitude'])
+        if station_distance < nearest_distance:
+            nearest_distance = station_distance
+            nearest_station = station
+
+    return nearest_station
 
 
 def metres_between_gps(from_gps, to_gps):
