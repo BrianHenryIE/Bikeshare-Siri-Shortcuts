@@ -56,7 +56,7 @@ class AngleToDirectionTests(unittest.TestCase):
 
     def test_south_east(self):
 
-        angle = 105
+        angle = 135
 
         expected = "south-east"
 
