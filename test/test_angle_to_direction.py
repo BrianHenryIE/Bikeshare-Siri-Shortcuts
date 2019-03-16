@@ -48,7 +48,7 @@ class AngleToDirectionTests(unittest.TestCase):
 
         angle = 45
 
-        expected = "north east"
+        expected = "north-east"
 
         actual = angle_to_direction(angle)
 
@@ -58,7 +58,7 @@ class AngleToDirectionTests(unittest.TestCase):
 
         angle = 105
 
-        expected = "south east"
+        expected = "south-east"
 
         actual = angle_to_direction(angle)
 
@@ -68,7 +68,7 @@ class AngleToDirectionTests(unittest.TestCase):
 
         angle = 220
 
-        expected = "south west"
+        expected = "south-west"
 
         actual = angle_to_direction(angle)
 
@@ -78,7 +78,7 @@ class AngleToDirectionTests(unittest.TestCase):
 
         angle = 320
 
-        expected = "north west"
+        expected = "north-west"
 
         actual = angle_to_direction(angle)
 
