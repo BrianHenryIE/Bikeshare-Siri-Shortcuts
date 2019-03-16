@@ -1,4 +1,30 @@
-import math
+import urllib.request, json, math
+
+
+def lambda_handler(event, context):
+
+    with urllib.request.urlopen("https://sac.jumpbikes.com/opendata/station_information.json") as url:
+        station_information = json.loads(url.read().decode())['data']['stations']
+
+    with urllib.request.urlopen("https://sac.jumpbikes.com/opendata/station_status.json") as url:
+        station_status = json.loads(url.read().decode())['data']['stations']
+
+    with urllib.request.urlopen("https://sac.jumpbikes.com/opendata/free_bike_status.json") as url:
+        free_bike_status = json.loads(url.read().decode())['data']['bikes']
+
+    gps = {'latitude': float(event['queryStringParameters']['latitude']),
+           'longitude': float(event['queryStringParameters']['longitude'])}
+
+    if 'number_of_bikes' in event['queryStringParameters'].keys():
+        number_of_bikes = event['queryStringParameters']['number_of_bikes']
+        result = where_is_the_nearest_hub_with_enough_bikes(station_status, station_information, gps, number_of_bikes)
+    else:
+        result = where_is_the_nearest_bikeshare_bike(free_bike_status, station_status, station_information, gps)
+
+    return {
+        'statusCode': 200,
+        'body': json.dumps(result)
+    }
 
 
 def where_is_the_nearest_bikeshare_bike(free_bike_status, station_status, station_information, gps):
