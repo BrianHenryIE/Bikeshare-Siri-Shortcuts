@@ -5,6 +5,7 @@ from where_is_the_nearest_jump_bike.where_is_the_nearest_jump_bike import *
 class NearestHubToGpsTests(unittest.TestCase):
 
     def test_nearest_hub(self):
+
         gps = {
             "longitude": -121.4920789003372,
             "latitude": 38.586078791838744
