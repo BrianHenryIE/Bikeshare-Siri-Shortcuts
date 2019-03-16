@@ -77,10 +77,13 @@ def direction_between_gps(from_gps, to_gps):
     :return: String direction, e.g. "north east"
     """
 
-    # Get angle
-    # Turn angle to string
+    angle = angle_between_gps(from_gps, to_gps)
 
-    return "unimplemented"
+    print(angle)
+
+    direction = angle_to_direction(angle)
+
+    return direction
 
 
 def angle_between_gps(from_gps, to_gps):
