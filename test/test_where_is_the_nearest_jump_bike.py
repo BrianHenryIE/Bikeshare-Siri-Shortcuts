@@ -41,4 +41,4 @@ class MyTests(unittest.TestCase):
         expected = "The nearest bike is docked at E St & 9th St, 92 m east."
         actual = where_is_the_nearest_jump_bike(free_bike_status, station_status, station_information, city_park_gps)
 
-        self.assertEqual(expected, actual)
+        self.assertEqual(expected, actual['message'])
