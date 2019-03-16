@@ -1,4 +1,4 @@
-
+import math
 
 def where_is_the_nearest_jump_bike(free_bike_status, station_information, gps):
     """
@@ -90,7 +90,43 @@ def angle_between_gps(from_gps, to_gps):
     :return: Integer angle using north as 0º
     """
 
-    return "unimplemented"
+    # Move to_gps as though from_gps is 0,0
+    centered_gps = {
+        'longitude': to_gps['longitude'] - from_gps['longitude'],
+        'latitude': to_gps['latitude'] - from_gps['latitude']
+    }
+
+    if centered_gps['latitude'] == 0:
+        # either 90 or 270
+        if to_gps['longitude'] > from_gps['longitude']:
+            return 90
+        else:
+            return 270
+
+    if centered_gps['longitude'] == 0:
+        # either 90 or 270
+        if to_gps['latitude'] > from_gps['latitude']:
+            return 0
+        else:
+            return 180
+
+    angle = math.degrees(math.atan2(centered_gps['latitude'], centered_gps['longitude']))
+
+    # clockwise from horizontal
+    if 0 >= angle >= -90:
+        compass_angle = math.fabs(angle) + 90
+
+    if -90 >= angle >= -180:
+        compass_angle = math.fabs(angle) + 90
+
+    # anti-clockwise from horizontal
+    if 0 <= angle < 90:
+        compass_angle = 90 - angle
+
+    if 90 <= angle < 180:
+        compass_angle = 360 - (angle - 90)
+
+    return round(compass_angle)
 
 
 def angle_to_direction(angle):
