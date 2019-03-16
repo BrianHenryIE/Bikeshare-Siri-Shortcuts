@@ -1,7 +1,7 @@
 import math
-from functools import reduce
 
-def where_is_the_nearest_jump_bike(free_bike_status, station_information, gps):
+
+def where_is_the_nearest_jump_bike(free_bike_status, station_status, station_information, gps):
     """
     :param free_bike_status: Array of bike
     :param station_information: Array of station_information
@@ -9,9 +9,38 @@ def where_is_the_nearest_jump_bike(free_bike_status, station_information, gps):
     :return: English sentence directing user to the nearest bike
     """
 
-    # Use Pythagoras to find the closest, determine is it at a hub, calculate distance and direction
+    nearest_bike = {'distance': 999999999}
 
-    return "unimplemented"
+    # Iterate through, note closest bike.
+    for bike in free_bike_status:
+        bike_gps = {'longitude': bike['lon'], 'latitude': bike['lat']}
+        bike_distance = metres_between_gps(gps, bike_gps)
+        athub = is_gps_location_a_station(station_information, bike_gps)
+        if bike_distance < nearest_bike['distance']:
+            nearest_bike['distance'] = bike_distance
+            nearest_bike['undocked'] = bike
+            nearest_bike['gps'] = {'longitude': bike['lon'], 'latitude': bike['lat']}
+
+    station_status_dictionary = {station['station_id']: station for station in station_status}
+
+    for station in station_information:
+        station_gps = {'longitude': station['lon'], 'latitude': station['lat']}
+        station_distance = metres_between_gps(gps, station_gps)
+        if station_distance < nearest_bike['distance']:
+            single_station_status = station_status_dictionary[station['station_id']]
+            if single_station_status['num_bikes_available'] > 0:
+                nearest_bike['distance'] = station_distance
+                nearest_bike['station'] = station
+                nearest_bike['gps'] = {'longitude': station['lon'], 'latitude': station['lat']}
+                if 'bike' in nearest_bike.keys():
+                    del nearest_bike['bike']
+
+    direction_to_bike = direction_between_gps(gps, nearest_bike['gps'])
+
+    if 'station' in nearest_bike.keys():
+        return "The nearest bike is docked at " + nearest_bike['station']['name'] + ", " + str(nearest_bike['distance']) + " m " + direction_to_bike + "."
+    else:
+        return "The nearest bike is undocked, " + str(nearest_bike['distance']) + " m " + direction_to_bike + "."
 
 
 def where_is_the_nearest_hub_with_enough_bikes(station_status, station_information, gps, number_of_bikes):
@@ -31,7 +60,7 @@ def where_is_the_nearest_hub_with_enough_bikes(station_status, station_informati
     return "unimplemented"
 
 
-def is_gps_location_a_station(station_information, gps, metres=10):
+def is_gps_location_a_station(station_information, gps, metres=15):
     """
     :param station_information:
     :param gps:
@@ -40,15 +69,13 @@ def is_gps_location_a_station(station_information, gps, metres=10):
     """
 
     # Bikes in free_bike_status.json do not have a property indicating if they are at a hub or not. Let's assume
-    # if it's within 10m of a hub, it's at a hub.
+    # if it's within 15m of a hub, it's at a hub.
 
-    # Rough approximation of metres to GPS units
-    distance = metres / 10 * 0.000111
-
-    # Iterate through stations, use Pythagoras to note closest station.
+    # Iterate through stations, note closest station.
     for station in station_information:
-        station_distance = math.hypot(station['lon'] - gps['longitude'], station['lat'] - gps['latitude'])
-        if station_distance < distance:
+        station_gps = {'longitude': station['lon'], 'latitude': station['lat']}
+        station_distance = metres_between_gps(gps, station_gps)
+        if station_distance < metres:
             return station
 
     return False
@@ -66,7 +93,8 @@ def nearest_station_to_gps(station_information, gps):
 
     # Iterate through stations, use Pythagoras to note closest station.
     for station in station_information:
-        station_distance = math.hypot(station['lon'] - gps['longitude'], station['lat'] - gps['latitude'])
+        station_gps = {'longitude': station['lon'], 'latitude': station['lat']}
+        station_distance = metres_between_gps(gps, station_gps)
         if station_distance < nearest_distance:
             nearest_distance = station_distance
             nearest_station = station
