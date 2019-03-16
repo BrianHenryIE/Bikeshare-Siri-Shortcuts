@@ -4,12 +4,13 @@ import math
 def where_is_the_nearest_jump_bike(free_bike_status, station_status, station_information, gps):
     """
     :param free_bike_status: Array of bike
+    :param station_status: Array of station_status
     :param station_information: Array of station_information
     :param gps: Dictionary containing "longitude" and "latitude"
     :return: English sentence directing user to the nearest bike
     """
 
-    nearest_bike = {'distance': 999999999}
+    nearest_bike = {'distance': 999999999, 'from_gps': gps}
 
     # Iterate through, note closest bike.
     for bike in free_bike_status:
@@ -47,6 +48,7 @@ def where_is_the_nearest_jump_bike(free_bike_status, station_status, station_inf
 
     return nearest_bike
 
+
 def where_is_the_nearest_hub_with_enough_bikes(station_status, station_information, gps, number_of_bikes):
     """
     :param station_status: Array of station_status
@@ -62,7 +64,7 @@ def where_is_the_nearest_hub_with_enough_bikes(station_status, station_informati
             degrees: compass direction in degrees
     """
 
-    nearest_station = {'distance': 999999}
+    nearest_station = {'distance': 999999, 'from_gps': gps, 'minimum_bikes': number_of_bikes}
 
     nearest_station['information'] = station_information[0]
     nearest_station['status'] = station_status[0]
